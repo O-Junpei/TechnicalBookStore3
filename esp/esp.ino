@@ -5,8 +5,10 @@
 
 //Wifi関係
 #define JST     3600* -9
-const char* ssid = "2balf";
-const char* password = "phenolammonia";
+const char* ssid = "Buffalo-G-ACB0";
+const char* password = "pchhgjb6bu55e";
+const char* host = "swiswiswift.sakura.ne.jp";
+const char* directory = "/felica/notification.php";
 
 //フェリカ関係
 #define COMMAND_TIMEOUT 400
@@ -31,8 +33,7 @@ void setup() {
   Serial.println("Initing");
 
   //wifi
-  //wifiConnect();
-  //Serial.println(getTimeString());
+  wifiConnect();
 
   // 音を鳴らす準備
   ledcSetup(LEDC_CHANNEL, LEDC_BASE_FREQ, LEDC_TIMER_BIT);
@@ -40,7 +41,7 @@ void setup() {
   callZeldaSound();
 
   //SDの確認
-  //SD_init();
+  SD_init();
 
   //felica
   int ret;
@@ -77,10 +78,13 @@ void loop() {
     Serial.println(date);
     Serial.println(felicaID);
 
+    getRequest(felicaID);
+
     delay(5000);
     
   } else {
     Serial.println("Polling...");
+    delay(100);
   }
  
   rcs620s.rfOff();
